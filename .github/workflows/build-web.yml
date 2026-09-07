@@ -24,6 +24,12 @@ jobs:
           repository: 'raysan5/raylib'
           ref: '5.5'
           path: 'raylib-src' 
+
+      - name: Set up Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 3.1.58
+          actions-cache-folder: 'emsdk-cache'
           
       - name: Install dependencies
         run: |
