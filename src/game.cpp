@@ -358,7 +358,7 @@ void Game::makeDoor() {
     Room* room = maze->rooms[0];
     Texture2D* doorTex = &textureManager.load("tiles/door/variant_0/closing/0");
     Door* door = new Door("door", 0, "closing", 
-        {SCENE_WIDTH/2, static_cast<float>(HEIGHT - 120 - doorTex->height/2}));
+        {SCENE_WIDTH/2, static_cast<float>(HEIGHT - 120 - doorTex->height/2)});
     door->isAnimating = true;
     room->addTile(door);
 }
