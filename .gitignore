@@ -1,0 +1,43 @@
+# Build directories
+build/
+build-*/
+*.build/
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.ninja
+build.ninja
+
+# Compiled binaries
+*.exe
+*.out
+*.app
+DungeonRaylib
+
+# Web build output
+*.html
+*.js
+*.wasm
+*.data
+*.symbols
+*.map
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Emscripten cache
+emsdk-cache/
+
+# Raylib (if vendored)
+raylib/
