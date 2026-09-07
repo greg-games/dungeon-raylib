@@ -43,7 +43,7 @@ jobs:
           rm -rf build-web
           emcmake cmake -B build-web -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
-            -DWEB_RAYLIB_SRC=/home/runner/work/raylib-src
+            -DWEB_RAYLIB_SRC="${{ github.workspace }}/raylib-src"
 
       - name: Build with Ninja
         run: |
