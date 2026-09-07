@@ -39,6 +39,7 @@ jobs:
 
       - name: Build with Ninja
         run: |
+          cd build-web
           cmake --build build-web -j $(nproc)
 
       - name: Verify build output
