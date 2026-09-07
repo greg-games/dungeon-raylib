@@ -31,9 +31,7 @@ jobs:
 
       - name: Configure CMake with Emscripten
         run: |
-          emcmake cmake -B build-web -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_EXE_LINKER_FLAGS="-sUSE_GLFW=3 -sASYNCIFY -sTOTAL_MEMORY=67108864 -sFORCE_FILESYSTEM=1 -sALLOW_MEMORY_GROWTH=1 --preload-file assets@/assets"
+          emcmake cmake -B build-web -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Build with Ninja
         run: |
