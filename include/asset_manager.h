@@ -2,6 +2,7 @@
 #define ASSET_MANAGER_H
 
 #include "raylib.h"
+#include "constants.h"
 #include <string>
 #include <unordered_map>
 #include <mutex>
