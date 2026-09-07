@@ -159,7 +159,7 @@ Door::Door(const std::string& name_, int variant_, const std::string& state_, co
     : AnimatedTile(name_, variant_, state_, pos_) {}
 
 std::string Door::soundPath() const {
-    return variant_ ? "door/close" : "door/open";
+    return variant ? "door/close" : "door/open";
 }
 
 Spikes::Spikes(const std::string& name_, int variant_, const Vector2& pos_)
