@@ -77,8 +77,7 @@ if(PLATFORM_WEB)
     # Linkujemy do celu 'raylib' utworzonego przez FetchContent
     target_link_libraries(${EXECUTABLE_NAME} PUBLIC raylib)
     
-    # Emscripten-specific linker flags
-    target_link_options(${EXECUTABLE_NAME} PRIVATE
+   target_link_options(${EXECUTABLE_NAME} PRIVATE
         "-sUSE_GLFW=3"
         "-sASYNCIFY"
         "-sTOTAL_MEMORY=67108864"
@@ -86,9 +85,10 @@ if(PLATFORM_WEB)
         "-sALLOW_MEMORY_GROWTH=1"
         "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
         "-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
-        "SHELL:--preload-file ${PROJECT_SOURCE_DIR}/assets@/assets"
-        "SHELL:--shell-file ${PROJECT_SOURCE_DIR}/web/shell.html"
+        "SHELL:--preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
+        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html"
     )
+
 
     # Set output name
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES OUTPUT_NAME "index")
