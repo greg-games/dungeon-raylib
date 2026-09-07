@@ -31,6 +31,7 @@ jobs:
 
       - name: Configure CMake with Emscripten
         run: |
+          rm -rf build-web
           emcmake cmake -B build-web -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Build with Ninja
