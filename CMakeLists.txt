@@ -87,7 +87,7 @@ if(PLATFORM_WEB)
         "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
         "-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
         "SHELL:--preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
-        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/../web/shell.html"
+        #"SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/../web/shell.html"
     )
 
     # Set output name
