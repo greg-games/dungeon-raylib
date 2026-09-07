@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "constants.h"
 #include "tile.h"
+#include "entity.h"
 #include <vector>
 #include <string>
 #include <array>
