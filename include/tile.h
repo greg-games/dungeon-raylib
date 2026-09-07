@@ -44,7 +44,7 @@ public:
     
     AnimatedTile(const std::string& name_, int variant_, const std::string& state_, const Vector2& pos_);
     
-    void loadFrames();
+    virtual void loadFrames();
     virtual std::string imagePath() const override;
     void nextFrame(float frameSpeed);
     virtual void draw(float offsetX = 0) const override;
