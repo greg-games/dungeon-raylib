@@ -85,8 +85,8 @@ if(PLATFORM_WEB)
         "-sALLOW_MEMORY_GROWTH=1"
         "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
         "-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
-        "SHELL:--preload-file${{ github.workspace }}/assets"
-        "SHELL:--shell-file${{ github.workspace }}/web/shell.html"
+        "SHELL:--preload-file${ github.workspace }/assets"
+        "SHELL:--shell-file${ github.workspace }/web/shell.html"
     )
 
 
