@@ -15,28 +15,22 @@ endif()
 
 # Raylib configuration
 if(PLATFORM_WEB)
-    # Automatyczne pobieranie i kompilacja Raylib dla wersji Web za pomocą FetchContent
-    include(FetchContent)
+    # Sprawdzamy, czy przekazano ścieżka do pobranego w YAML kodu źródłowego Raylib
+    if(NOT WEB_RAYLIB_SRC)
+        message(FATAL_ERROR "WEB_RAYLIB_SRC variable is not set! Pass -DWEB_RAYLIB_SRC=/path/to/raylib to cmake")
+    endif()
+
+    message(STATUS "Using Raylib source from: ${WEB_RAYLIB_SRC}")
     
+    # Konfiguracja parametrów kompilacji Raylib pod WebAssembly
     set(PLATFORM "Web" CACHE STRING "Target platform for Raylib" FORCE)
     set(GRAPHICS "GRAPHICS_API_OPENGL_ES2" CACHE STRING "Graphics API for Raylib" FORCE)
     set(BUILD_EXAMPLES OFF CACHE BOOL "Disable Raylib examples" FORCE)
     
-    # Naprawa ostrzeżenia CMP0135 (zalecane dla CMake >= 3.24)
-    if(POLICY CMP0135)
-        cmake_policy(SET CMP0135 NEW)
-    endif()
-    
-    FetchContent_Declare(
-      raylib
-      GIT_REPOSITORY https://github.com
-      GIT_TAG        5.5  # Pobiera dokładnie wersję 5.5 przez stabilny tag Gita
-      GIT_SHALLOW    ON   # Szybkie pobieranie (tylko najnowsza rewizja, bez historii commitów)
-    )
-    FetchContent_MakeAvailable(raylib)
+    # Dołączamy bezpośrednio projekt Raylib do drzewa kompilacji CMake
+    add_subdirectory(${WEB_RAYLIB_SRC} ${CMAKE_CURRENT_BINARY_DIR}/raylib_build)
     
     set(RAYLIB_FOUND TRUE)
-
 else()
     # Desktop: find locally installed raylib
     find_path(RAYLIB_INCLUDE_DIR raylib.h
