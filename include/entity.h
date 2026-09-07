@@ -32,6 +32,8 @@ public:
     bool isDead = false;
     float frame = 0;
     float hitboxOffset = 0;
+    int x = 0;
+    int y = 0;
     
     Rect hitbox;
     Rect attackHitbox;
