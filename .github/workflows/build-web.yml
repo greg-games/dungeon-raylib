@@ -27,7 +27,7 @@ jobs:
       # KROK 1: Pobieramy kod źródłowy Raylib bezpośrednio w powłoce systemowej
       - name: Clone Raylib Source
         run: |
-          git clone --depth 1 --branch 5.5 https://github.com /home/runner/work/raylib-src
+          git clone --depth 1 --branch 5.5 https://github.com/home/runner/work/raylib-src
 
       - name: Install dependencies
         run: |
