@@ -15,11 +15,21 @@ endif()
 
 # Raylib configuration
 if(PLATFORM_WEB)
-    # For web, raylib is provided by Emscripten ports
-    find_package(PkgConfig QUIET)
-    if(PkgConfig_FOUND)
-        pkg_check_modules(RAYLIB raylib)
-    endif()
+    # Automatyczne pobieranie i kompilacja Raylib dla wersji Web za pomocą FetchContent
+    include(FetchContent)
+    
+    set(PLATFORM "Web" CACHE STRING "Target platform for Raylib" FORCE)
+    set(GRAPHICS "GRAPHICS_API_OPENGL_ES2" CACHE STRING "Graphics API for Raylib" FORCE)
+    set(BUILD_EXAMPLES OFF CACHE BOOL "Disable Raylib examples" FORCE)
+    
+    FetchContent_Declare(
+      raylib
+      URL https://github.com
+    )
+    FetchContent_MakeAvailable(raylib)
+    
+    # FetchContent sam utworzy cel 'raylib', nie potrzebujemy szukać ścieżek ręcznie
+    set(RAYLIB_FOUND TRUE)
 else()
     # Desktop: find locally installed raylib
     find_path(RAYLIB_INCLUDE_DIR raylib.h
@@ -44,10 +54,11 @@ else()
     endif()
 endif()
 
-if(NOT RAYLIB_FOUND AND NOT PLATFORM_WEB)
+if(NOT RAYLIB_FOUND)
     message(FATAL_ERROR "Raylib not found. Please install raylib or set RAYLIB_PATH environment variable.")
 endif()
 
+# Dołączamy nagłówki Twojego projektu (nagłówki pobranego raylib zostaną dołączone automatycznie)
 include_directories(${RAYLIB_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.c")
@@ -62,18 +73,20 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 # Link libraries
 if(PLATFORM_WEB)
+    # Linkujemy do celu 'raylib' utworzonego przez FetchContent
     target_link_libraries(${EXECUTABLE_NAME} PUBLIC raylib)
-    # Emscripten-specific linker flags
+    
+    # Emscripten-specific linker flags (Ważne: usunięto spacje po -s, aby zapobiec problemom w CMake)
     target_link_options(${EXECUTABLE_NAME} PRIVATE
-        "-s USE_GLFW=3"
-        "-s ASYNCIFY"
-        "-s TOTAL_MEMORY=67108864"
-        "-s FORCE_FILESYSTEM=1"
-        "-s ALLOW_MEMORY_GROWTH=1"
-        "-s EXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
-        "-s EXPORTED_FUNCTIONS=['_main','_malloc','_free']"
-        "--preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
-        "--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html"
+        "-sUSE_GLFW=3"
+        "-sASYNCIFY"
+        "-sTOTAL_MEMORY=67108864"
+        "-sFORCE_FILESYSTEM=1"
+        "-sALLOW_MEMORY_GROWTH=1"
+        "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
+        "-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
+        "--preload-file=${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
+        "--shell-file=${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html"
     )
     # Set output name
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES OUTPUT_NAME "index")
