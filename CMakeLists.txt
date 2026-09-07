@@ -85,8 +85,8 @@ if(PLATFORM_WEB)
         "-sALLOW_MEMORY_GROWTH=1"
         "-sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']"
         "-sEXPORTED_FUNCTIONS=['_main','_malloc','_free']"
-        "SHELL:--preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
-        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html"
+        "SHELL:--preload-file ${CMAKE_CURRENT_SOURCE_DIR}/../assets@/assets"
+        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/../web/shell.html"
     )
 
 
