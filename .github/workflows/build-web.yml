@@ -24,19 +24,28 @@ jobs:
           version: 3.1.58
           actions-cache-folder: 'emsdk-cache'
 
+      # KROK 1: Pobieramy kod źródłowy Raylib bezpośrednio w powłoce systemowej
+      - name: Clone Raylib Source
+        run: |
+          git clone --depth 1 --branch 5.5 https://github.com /home/runner/work/raylib-src
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build
 
+      # KROK 2: Przekazujemy ścieżkę do pobranego Raylib jako zmienną do CMake
       - name: Configure CMake with Emscripten
         run: |
           rm -rf build-web
-          emcmake cmake -B build-web -G Ninja -DCMAKE_BUILD_TYPE=Release
+          emcmake cmake -B build-web -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DWEB_RAYLIB_SRC=/home/runner/work/raylib-src
 
       - name: Build with Ninja
         run: |
           cmake --build build-web -j $(nproc)
+
 
       - name: Verify build output
         run: |
