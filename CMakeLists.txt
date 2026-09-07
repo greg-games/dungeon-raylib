@@ -22,14 +22,21 @@ if(PLATFORM_WEB)
     set(GRAPHICS "GRAPHICS_API_OPENGL_ES2" CACHE STRING "Graphics API for Raylib" FORCE)
     set(BUILD_EXAMPLES OFF CACHE BOOL "Disable Raylib examples" FORCE)
     
+    # Naprawa ostrzeżenia CMP0135 (zalecane dla CMake >= 3.24)
+    if(POLICY CMP0135)
+        cmake_policy(SET CMP0135 NEW)
+    endif()
+    
     FetchContent_Declare(
       raylib
-      URL https://github.com
+      GIT_REPOSITORY https://github.com
+      GIT_TAG        5.5  # Pobiera dokładnie wersję 5.5 przez stabilny tag Gita
+      GIT_SHALLOW    ON   # Szybkie pobieranie (tylko najnowsza rewizja, bez historii commitów)
     )
     FetchContent_MakeAvailable(raylib)
     
-    # FetchContent sam utworzy cel 'raylib', nie potrzebujemy szukać ścieżek ręcznie
     set(RAYLIB_FOUND TRUE)
+
 else()
     # Desktop: find locally installed raylib
     find_path(RAYLIB_INCLUDE_DIR raylib.h
