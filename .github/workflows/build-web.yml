@@ -17,15 +17,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          path: 'game-src' # Pobierze grę do folderu game-src
 
       - name: Checkout Raylib Repository
         uses: actions/checkout@v4
         with:
           repository: 'raysan5/raylib'
           ref: '5.5'
-          path: 'raylib-src' # Pobierze Raylib obok, do folderu raylib-src
-
+          path: 'raylib-src' 
+          
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -34,8 +33,7 @@ jobs:
       - name: Configure CMake with Emscripten
         run: |
           rm -rf build-web
-          # Odpalamy konfigurację w katalogu 'build-web' na bazie źródeł z 'game-src'
-          emcmake cmake -B build-web -S game-src -G Ninja \
+          emcmake cmake -B build-web -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DWEB_RAYLIB_SRC="${{ github.workspace }}/raylib-src"
 
