@@ -13,42 +13,35 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (Game)
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          path: 'game-src' # Pobierze grę do folderu game-src
 
-      - name: Set up Emscripten
-        uses: mymindstorm/setup-emsdk@v14
-        with:
-          version: 3.1.58
-          actions-cache-folder: 'emsdk-cache'
-
-     # Zastąp stary krok git clone poniższym blokiem:
       - name: Checkout Raylib Repository
         uses: actions/checkout@v4
         with:
           repository: 'raysan5/raylib'
           ref: '5.5'
-          path: 'raylib-src'
+          path: 'raylib-src' # Pobierze Raylib obok, do folderu raylib-src
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build
 
-      # KROK 2: Przekazujemy ścieżkę do pobranego Raylib jako zmienną do CMake
       - name: Configure CMake with Emscripten
         run: |
           rm -rf build-web
-          emcmake cmake -B build-web -G Ninja \
+          # Odpalamy konfigurację w katalogu 'build-web' na bazie źródeł z 'game-src'
+          emcmake cmake -B build-web -S game-src -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DWEB_RAYLIB_SRC="${{ github.workspace }}/raylib-src"
 
       - name: Build with Ninja
         run: |
           cmake --build build-web -j $(nproc)
-
 
       - name: Verify build output
         run: |
